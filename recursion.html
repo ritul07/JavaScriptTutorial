@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Recursion</title>
+</head>
+<body>
+<script>
+
+console.log(fib(10000));	//	function called before definition, here Hoisting plays its role
+//	fib(10000) returns -> Uncaught RangeError: Maximum call stack size exceeded
+	
+function fib(n, sum=0, prev=1)
+{
+	if(n<=1){
+		return sum;
+	}
+
+	return fib(n-1, prev+sum, sum);
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prototype-Inheritance</title>
+</head>
+<body>
+<script>
+var log = console.log;
+	
+function User(email, name){
+	this.email = email;
+	this.name = name;
+	this.online = false;
+}
+
+//	The JavaScript prototype property also allows you to add new methods to objects constructors
+User.prototype.login = function(){
+	this.online = true;
+	log(this.email + ' has logged in!');
+}
+
+User.prototype.logout = function(){
+	this.online = false;
+	log(this.email + ' has logged out!')
+}
+
+
+
+function Admin(...args){	//	... is a rest parameter, it takes each passed params as an array
+	User.apply(this, args);	//	here, 'args' stands for the array of arguments passed while object creation
+	//	this also, inherits all the properties of the User class
+
+	this.role = 'Super Admin';	// this is a property exclusive to the Admin class
+}
+
+
+Admin.prototype = Object.create(User.prototype);//	inherits both the functions of User class i.e login and logout
+//	this creates __proto__ pointing to the User prototype
+//	here, we'll be having a nested __proto__, bcoz we haven't directly added the prototypes onto the Admin, this is called Prototype chaining
+
+
+Admin.prototype.deleteUser = function(u){	//	this function is exclusive to the Admin class
+	users = users.filter( user => {	//	ES6 Arrow function
+		return user.email != u.email;	//	filters out the User matching the passed arg User
+	});
+};
+//	try this out in the console
+
+
+var userOne = new User('rk@epik.com', 'rk');
+var userTwo = new User('pr@epik.com', 'pr');
+var admin = new Admin('pandey@epik.com', 'Pandey');
+
+var users = [userOne, userTwo, admin];	//	array of all the users and admin
+
+//	using prototype methods
+userOne.login();
+userOne.logout();
+
+console.log(admin);
+
+</script>
+</body>
+</html>

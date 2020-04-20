@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>closure-2</title>
+</head>
+<body>
+<script>
+	
+var addTo = function(passed){
+
+	var add = function(inner){
+		return passed+inner;
+	};
+	return add;
+}
+
+var addThree = new addTo(3); //	3 goes to passed
+var addFour = new addTo(4);	//	4 goes to passed
+
+console.log(addThree(1));	//	1 goes to inner
+console.log(addFour(1));	//	1 goes to inner
+
+</script>
+</body>
+</html>

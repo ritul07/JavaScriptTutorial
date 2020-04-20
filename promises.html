@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Promises</title>
+</head>
+<body>
+<script>
+var log = console.log;	
+
+// The Promise object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.
+// used to handle asynchronous operations in JavaScript
+
+// SimpleExample
+var promiseTocleanTheRoom = new Promise(function(resolve, reject){	//	this takes a callback function
+
+	//cleaning the room
+	var isClean = true;
+
+	if(isClean){
+		resolve("clean");
+	}
+	else{
+		reject("not clean");
+	}
+
+})	
+
+//	then() method gets called when the promise is resolved, so when this method is fired, which means the problem is resolved
+promiseTocleanTheRoom.then(function(fromResolve){	
+	console.log("the room is " + fromResolve )
+})
+.catch(function(fromReject){
+	console.log("the room is " + fromReject );
+})
+
+
+// log("*************************************************");
+
+
+// Promise_Nested - all 3 are dependent on each other
+var cleanRoom = function() {
+  return new Promise(function(resolve, reject) {
+    resolve('Cleaned The Room');
+  });
+};
+
+var removeGarbage = function(message) {
+  return new Promise(function(resolve, reject) {
+    resolve(message + ', Removed the garbage');
+  });
+};
+
+var winIcecream = function(message) {
+  return new Promise(function(resolve, reject) {
+    resolve(message + ', Won an ice-cream');
+  });
+};
+
+cleanRoom().then(function(result) {
+  return removeGarbage(result);
+})
+.then(function(result) {
+  return winIcecream(result);
+})
+.then(function(result) {
+  console.log('Work finished. I\'ve '  + result);
+})
+
+
+// log("*************************************************");
+
+
+Promise
+.all([cleanRoom(), removeGarbage(), winIcecream()])
+.then(function(){
+	log("All work finished !");
+	// setTimeout( () => { log("All work finished !")}, 1000);	//	trial
+})
+
+
+// log("*************************************************");
+
+
+Promise
+.race([cleanRoom(), removeGarbage(), winIcecream()])
+.then(function(result){
+	log(result + "  is finished !");
+})
+
+</script>
+</body>
+</html>

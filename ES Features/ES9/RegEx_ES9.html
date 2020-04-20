@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RegEx_ES9</title>
+</head>
+<body>
+<script>
+var log = console.log;	
+
+log("//////////---Regular Expression---///////////");
+
+log("*********.s(dotAll) flag*********");
+// The value of dotAll is a Boolean and true if the "s" flag was used; otherwise, false. The "s" flag indicates that the dot special character (".") should additionally match the following line terminator ("newline") characters in a string
+
+// eg-1
+log(/foo.bar/.test('foo\nbar'));	// false
+//	there are 2 dots, so the compiler assumes both as Line Terminators, hence 'false'
+
+log(/foo.bar/s.test('foo\nbar')); // true
+
+log("***************************************");
+
+// eg-2
+const regex1 = new RegExp('foo', 's');
+
+console.log(regex1.dotAll);
+// expected output: true
+
+const regex2 = new RegExp('bar');
+
+console.log(regex2.dotAll);
+// expected output: false
+
+
+
+log("*********RegExp Named Capture Groups*********");
+const re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
+const result = re.exec('2019-01-29');
+
+log(result.groups.year === '2019');
+log(result.groups.month === '01');
+log(result.groups.day === '29');
+
+log(result[0] === '2019-01-29');
+log(result[1] === '2019');
+log(result[2] === '01');
+log(result[3] === '29');
+
+
+log("*********RegExp Lookbehind Assertions*********");
+//	(?<=foo)  <-	Asserts that what immediately precedes the current position in the string is foo
+var test = '$10.53'.match(/(?<=\$)\d+(\.\d*)?/);
+log(test);
+
+log("*********RegExp Unicode Property Escape*********");
+const regexGreekSymbol = /\p{Script=Greek}/u; 
+log(regexGreekSymbol.test('π')); 
+
+</script>
+</body>
+</html>

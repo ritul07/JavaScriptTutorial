@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scope</title>
+</head>
+<body>
+	<p id="demo"></p>
+<script>
+
+//	automatically global
+myFunction();
+
+// code here can use carName
+console.log("the name of my car is : " + carName);
+
+function myFunction() {
+  carName = "Volvo";	//	If you assign a value to a variable that has not been declared, it will automatically become a GLOBAL variable
+}
+
+
+//	global variables in HTML
+var carName1 = "Maruti";
+document.getElementById("demo").innerHTML = "name of the car is - " + window.carName1;
+//	In HTML, the global scope is the window object. All global variables belong to the window object
+
+</script>
+</body>
+</html>

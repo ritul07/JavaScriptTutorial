@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ES5</title>
+</head>
+<body>
+<script>
+var log = console.log;
+
+log("////////////////---JS String Methods---//////////////////");
+
+log("*********String.trim()*********");
+//	removes whitespace from both sides of a string.
+var str = "       Hello World!        ";
+log(str.trim());
+
+
+log("////////////////---JS Arrays---//////////////////");
+
+
+log("*********Array.isArray()*********");
+//	checks whether an object is an array.
+function myFunction() {
+  var fruits = ["Banana", "Orange", "Apple", "Mango"];
+  log(Array.isArray(fruits));
+}
+myFunction();
+
+
+log("*********Array.forEach()*********");
+//	The forEach() method calls a function (a callback function) once for each array element
+var numbers = [45, 4, 9];
+numbers.forEach(myFunction1);
+
+function myFunction1(value, index, array) {
+  log(value);	//	here we used only value param
+}
+
+
+log("********Array.map()*********");
+//	The map() method creates a new array by performing a function on each array element
+var numbers1 = [45, 4, 9];
+var numbers2 = numbers1.map(myFunction2);
+log(numbers2);
+function myFunction2(value, index, array) {
+  return (value * 2);
+}
+
+
+log("********Array.filter()*********");
+//	The filter() method creates a new array with array elements that passes a test
+var over18 = numbers.filter(myFunction3);
+log(over18);
+function myFunction3(value, index, array) {
+  return (value > 18);
+}
+
+
+log("********Array.reduce()*********");
+//	The reduce() method runs a function on each array element to produce (reduce it to) a single value
+//	works from left-to-right in the array
+var sum = numbers.reduce(myFunction4);
+log(sum);
+var sum1 = numbers.reduce(myFunction4,100);	//	The reduce() method can accept an initial value like here, initial sum from which it'll start summation
+log(sum1);
+function myFunction4(total, value, index, array) {
+  return total + value;
+}
+
+
+log("********Array.reduceRight()*********");
+//	The reduceRight() method runs a function on each array element to produce (reduce it to) a single value.
+//	 works from right-to-left in the array
+var numbers1 = [45, 4, 9];
+var sum = numbers1.reduceRight(myFunction5);
+log(sum);
+function myFunction5(total, value, index, array) {
+  return total + value;
+}
+
+
+log("********Array.every()*********");
+//	The every() method check if all array values pass a test.
+var numbers = [45, 4, 9, 16, 25];
+var allOver18 = numbers.every(myFunction6);
+log(allOver18);
+function myFunction6(value, index, array) {
+  return value > 18;
+}
+
+
+log("********Array.some()*********");
+//	The some() method check if some array values pass a test
+var numbers = [45, 4, 9, 16, 25];
+var someOver18 = numbers.some(myFunction7);
+log(someOver18);
+function myFunction7(value, index, array) {
+  return value > 18;
+}
+
+
+log("********Array.indexOf()*********");
+//	The indexOf() method searches an array for an element value and returns its position
+var fruits = ["Apple", "Orange", "Apple", "Mango"];
+var a = fruits.indexOf("Apple");
+log(a);
+
+
+log("********Array.lastIndexOf()*********");
+//	Array.lastIndexOf() is the same as Array.indexOf(), but returns the position of the last occurrence of the specified element
+log(fruits.lastIndexOf("Apple"));	
+
+
+log("////////////////---JSON---//////////////////");
+
+
+log("********JSON.parse()*********");
+//	A common use of JSON is to receive data from a web server
+//	used to convert the text into a JavaScript object
+var txt = '{"name":"John", "age":30, "city":"New York"}'
+log(JSON.parse(txt))
+
+
+log("********JSON.stringify()*********");
+//	A common use of JSON is to send data to a web server
+//	convert it into a string
+var obj = { name: "John", age: 30, city: "New York" };
+log(JSON.stringify(obj));
+
+
+log("/////////////////////////////////////////");
+log("********Date.now()*********");
+//	Date.now() returns the number of milliseconds since zero date (January 1. 1970 00:00:00 UTC).
+log(Date.now());
+//	Date.now() returns the same as getTime() performed on a Date object.
+var dateObj = new Date();
+log(dateObj.getTime());
+
+
+log("/////////////////////////////////////////////");
+
+
+log("********Property Getters and Setters*********");
+
+// Create an object:
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  language : "NO",
+  get lang() {
+    return this.language;
+  },
+  set lang(value) {
+    this.language = value;
+  }
+};
+// Set an object property using a setter:
+person.lang = "en";
+// Display data from the object using a getter:
+log(person.lang);
+
+
+log("////////////////--ES5 New Object Methods--////////////////");
+
+log("********Object.defineProperty()*********");
+//	It is a new Object method in ES5.
+// It lets you define an object property and/or change a property's value and/or metadata.
+// Create an Object:
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+    language : "NO", 
+};
+log(person);
+// Change a Property:
+Object.defineProperty(person, "language", {
+  value: "EN",
+  writable : true,
+  enumerable : true,
+  configurable : true
+});
+log("After property change - ")
+log(person);
+
+log("/////////////////////////////////////////////");
+
+//	creates a setter and a getter to secure upper case updates of language
+/// Create an Object:
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  language : "NO"
+};
+
+// Change a Property:
+//	Object.defineProperty(object, property, descriptor)
+Object.defineProperty(person, "language", {
+  get : function() {
+   return language 
+},
+
+  set : function(value) {
+   language = value.toUpperCase()
+}
+
+});
+// Change Language
+person.language = "en";
+log(person);
+log(person.language);
+
+
+log("********Object.getOwnPropertyDescriptor()*********");
+// Accessing Properties
+log(Object.getOwnPropertyDescriptor(person, "lastName"));
+
+
+log("********Object.getOwnPropertyNames()*********");
+// Returns all properties as an array
+log(Object.getOwnPropertyNames(person));
+
+
+log("********Object.keys()*********");
+// Returns enumerable properties as an array
+log(Object.keys(person));
+
+
+log("********Object.getPrototypeOf()*********");
+// Accessing the prototype
+log(Object.getPrototypeOf(person));
+
+//	more OBJECT METHODS are available...
+
+
+
+log("////////////---Property Access on Strings---////////////");
+//	The charAt() method returns the character at a specified index (position) in a string
+var str = "HELLO WORLD";
+log(str.charAt(0));            // returns H
+
+//ECMAScript 5 allows property access on strings
+log(str[1]);
+
+
+log("////////////---Trailing Commas---////////////");
+//	ECMAScript 5 allows trailing commas in object and array definitions
+//	works for both Object and Array
+person = {
+  firstName: "John",
+  lastName: " Doe",
+  age: 46,	//	<- trailing comma here
+}
+log(person);
+
+log("////////--Note: JSON does not allow trailing commas.--//////")
+// Allowed:
+var person = '{"firstName":"John", "lastName":"Doe", "age":46}';
+log(JSON.parse(person));
+
+// Not allowed:
+var person = '{"firstName":"John", "lastName":"Doe", "age":46,}';
+//	JSON.parse(person);	//	<- it will not run/work
+
+
+log("////////////---Strings Over Multiple Lines---////////////");
+//	ECMAScript 5 allows string literals over multiple lines if escaped with a backslash
+log("Hello \
+Dolly!");
+
+//	A safer way to break up a string literal, is to use string addition
+log("Hello " +
+"Dolly!");
+
+
+log("////////////---Reserved Words as Property Names---////////////");
+//	ECMAScript 5 allows reserved words as property name
+var obj = {name: "John", new: "yes"}	//	here, 'new' is a reserved word
+log(obj);
+
+
+
+</script>
+</body>
+</html>

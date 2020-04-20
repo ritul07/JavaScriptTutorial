@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>dog_cat</title>
+	<script src="jsFile.js"></script>
+</head>
+<body>
+		
+<!-- changes the src of 'myImg' id -->
+<button onclick="document.getElementById('myImg').src = 'dog.jpg' ">Convert into Dog</button>
+<img id="myImg" src="dog.jpg" width="100px">
+<button onclick="document.getElementById('myImg').src = 'cat.jpg' ">Convert into Cat</button>
+
+<!--	Changing the style of an HTML element 	-->
+<p id="myPara">Hello JavaScript !</p>
+<button onclick="document.getElementById('myPara').style.fontSize = '35px'">Change fontSize</button>
+
+<!--	<element event='some JavaScript'>	-->
+<p id="event"></p>
+<button onclick="document.getElementById('event').innerHTML = Date()">The time is?</button>
+
+	<!--it'll changes the contents of this button only into Date()	-->
+<button onclick="this.innerHTML = Date()">The time is ("this" keyword) ?</button>
+
+
+<!--	mouse events	-->
+<div>
+<script>
+	var a = 0;
+	var b = 0;
+	var c = 0;
+
+</script>
+
+
+
+<p>
+	onmousemove: <br> <span id="m1">Count...</span>
+	<button onmousemove="document.getElementById('m1').innerHTML = a+=1 ">onmousemove</button><br>
+</p>
+
+
+<p>
+	onmouseenter: <br> <span id="m2">Count...</span>
+	<button onmouseenter="document.getElementById('m2').innerHTML = b+=1 ">onmouseenter</button><br>
+</p>
+
+
+<p>
+	onmouseover: <br> <span id="m3">Count...</span>
+	<button onmouseover="document.getElementById('m3').innerHTML = c+=1 ">onmouseover</button>
+</p>
+	
+</div>
+
+</body>
+</html>

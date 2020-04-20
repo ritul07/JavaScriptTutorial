@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>es7_and_es8</title>
+</head>
+<body>
+<script>
+var log = console.log;
+
+log("////////////////---ES7---//////////////////");
+
+log("*********Array.prototype.includes*********");
+// replacement for indexOf which developers used to check for presence of a value in an array
+//	returns boolean
+
+// WRONG
+// if (arr.indexOf('react')) { // 0 -> evaluates to false, definitely as we expected
+//   console.log('Can use React') // this line would never be executed
+// }
+
+
+var arr = ['react', 'angular', 'vue']
+// Correct
+if (arr.includes('react')) {
+  console.log('Can use React')
+}
+
+// Developers can also use includes with strings:
+var str = 'React Quickly'
+// Correct
+if (str.toLowerCase().includes('react')) {  // true
+  console.log('Found "react"')  
+}
+
+//	NOTE: 'includes' has 'fromIndex' second optional parameter. This is good for optimization, because it allows to look for a match starting at a certain position
+
+
+log("*********Exponentiation Operator*********");
+// Developers also can use operation assignment:
+var a = 7
+a **= 12
+
+var b = 2
+b **= 7
+console.log(a === Math.pow(7,12)) // true
+console.log(b === Math.pow(2,7)) // true
+
+
+
+log("////////////////---ES8---//////////////////");
+log("*********Object.values*********");
+// Object.values returns an array of object’s own enumerable property values. We can iterate over it using good Array.prototype.forEach, but with ES6 arrow function and implicit return:
+var obj = {a: 1, b: 2, c: 3}
+Object.values(obj).forEach(value => console.log(value)) // 1, 2, 3
+
+log('\n');
+
+//	or with for/of:
+var obj = {a: 1, b: 2, c: 3}
+for (var value of Object.values(obj)) {
+  console.log(value)// 1, 2, 3
+}
+
+
+log("*********Object.entries*********");
+//	Object.entries, on the other hand, will return an array of object’s own enumerable property key-value pairs (as an array). Each item of the resulting array will be an array too.
+var obj = {a: 1, b: 2, c: 3}
+log( JSON.stringify(Object.entries(obj)) );	//	"[["a",1],["b",2],["c",3]]"
+
+log('\n');
+
+//	We can use ES6/ES2015 destructuring (check out this post or this course on in depth ES6 stuff) to declare key and value from a nested array:
+var obj = {a: 1, b: 2, c: 3}
+Object.entries(obj).forEach(([key, value]) => {
+ console.log(`${key} is ${value}`)	// a is 1, b is 2, c is 3
+})
+
+log('\n');
+
+// As you can guess, we can also use ES6 for/of (it’s for arrays after all!) to iterate over the result of Object.entries:
+var obj = {a: 1, b: 2, c: 3}
+for (let [key, value] of Object.entries(obj)) {
+  console.log(`${key} is ${value}`)	// a is 1, b is 2, c is 3
+}
+
+
+log("*********String.prototype.padStart*********");
+// padStart() returns a string of a given length (targetLength) by inserting pads at the beginning. Pads are a given string, repeated if needed until the desired length is reached.
+console.log('react'.padStart(8,'*'))//	takes 2nd parameter, fills the empty spaces with it.
+// "       react" is 10
+console.log('backbone'.padStart(10).length)         // "  backbone" is 10
+
+log('\n');
+
+// It can be a useful methods for financial statements:
+console.log('0.00'.padStart(20))             
+console.log('10,000.00'.padStart(20))    
+console.log('250,000.00'.padStart(20))
+
+
+log("*********String.prototype.padEnd*********");
+// padEnd will pad a string from the end which is the right side. As for the second argument, you can actually use a string of any length
+console.log('react'.padEnd(10, '#'))         // "react#####" is 10
+console.log('backbone'.padEnd(10, '*'))         // "backbone**" is 10
+
+
+log("*********Object.getOwnPropertyDescriptors*********");
+//  Object.getOwnPropertyDescriptors returns all own property descriptors of an object obj. It’s a plural version of Object.getOwnPropertyDescriptor(obj, propName) which returns only a single descriptor of the property propName of obj.
+
+// Object.getOwnPropertyDescriptors allows to create real shallow copies of objects and to create subclasses. It does so by giving developers the descriptors. Putting descriptors in Object.create(prototype, object) give a real shallow copy:
+var obj = {d : 1, e : 2, f : 3};
+log(Object.create(
+  Object.getPrototypeOf(obj),
+  Object.getOwnPropertyDescriptors(obj)
+))
+
+log('\n');
+
+// Or you can merge two objects target and source like this:
+var source = {d : 1, e : 2, f : 3};
+var target = {};
+Object.defineProperties(
+  target,
+  Object.getOwnPropertyDescriptors(source)
+)
+log(target)
+
+log('\n');
+
+// Descriptor : It’s an object which describes. 
+//  In JavaScript, there are two types of descriptors:
+
+// 1. Data descriptor
+// 2. Accessor descriptor
+
+// 2. Accessor descriptor has mandatory properties: get or set or both get and set which you can guess are getter and setter functions. Then accessor descriptor could have optional properties: configurable and enumerable
+let azatsBooks = {  
+  books: ['React Quickly'],
+  get latest () {
+    let numberOfBooks = this.books.length
+    if (numberOfBooks == 0) return log(undefined)
+    return log(this.books[numberOfBooks - 1])
+  }
+}
+
+log('\n');
+
+// The example of the data descriptor books produced by Object.getOwnPropertyDescriptor(azatsBooks, 'books') is:
+log(Object.getOwnPropertyDescriptor(azatsBooks, 'books'));
+
+// Similarly. Object.getOwnPropertyDescriptor(azatsBooks, 'latest') will show the descriptor for latest. This is how the latest (get) accessor descriptor will look like:
+log(Object.getOwnPropertyDescriptor(azatsBooks, 'latest')); 
+
+// Now, let’s invoke the new method to get all descriptors:
+console.log(Object.getOwnPropertyDescriptors(azatsBooks))
+
+
+log("*********Trailing commas*********");
+// The trailing comma in function definitions is a purely syntax change. In ES5, to make it a valid JavaScript, there should be no comma after the last function argument:
+var f = function(a,b,c,d,) {	//	COMMA used here
+  console.log(d)
+}
+f(1,2,3,'this')
+
+
+log("*********Asynchronous functions*********");
+// Asynchronous functions (or async/await) feature operates on top of Promise
+// Developers can define an asyncfunction which may or may not contain await for promise-based asychronous operations. Under the hood, an async function is a function that returns Promise, however you won’t see such a word anywhere in its body (unless you explicitly use it, of course).
+let axios = {  // mocks
+  get: function(x) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({data: x})
+    }, 2000)
+  })
+}}
+
+let query = 'mangos'
+async function fetchData(query) {
+  try {
+    const response = await axios.get(`/q?query=${query}`)
+    const data = response.data
+      return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+fetchData(query).then(data => {
+  console.log(data) // Got data 2s later... Can use data!
+})
+// With async/await, your code performs asynchronously but looks like synchronous. It’s easier to read such code from top to bottom and understand what it is doing, because the order of results appearing along with execution of function body goes precisely from top to bottom.
+
+</script>
+</body>
+</html>

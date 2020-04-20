@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>closure</title>
+</head>
+<body>
+<script>
+	
+var passed = 3;
+
+var addTo = function(){
+	var inner = 2;
+	return passed + inner;
+}
+
+console.log("closure 1 - " + addTo());	//	Since, the var passed is a global variable
+// addTo func, automatically uses the value of passed, and this is called Closure.
+
+var passed = 4;
+console.log("closure 2 - " + addTo()); //	here, the addTo func again uses the passed variable.
+
+//	if a function doesn't have any var defined inside of the its scope, then it'll search for other variables defined outside it's scope, until it is found. If found, uses this var, and this is called closure.
+//	Closures are functions with preserved data.
+
+</script>
+</body>
+</html>

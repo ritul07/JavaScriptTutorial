@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Event-Loop</title>
+</head>
+<body>
+<script>
+//	CALL-STACK	//	
+function multiply(a, b){	//	then after all the push, it'll start popping from the top of stack
+	return a*b;
+}
+
+function square(n){
+	return multiply(n, n);	//	multiply(n, n) <- 4th push(stack)
+}
+
+function printSquare(n){
+	var squared = square(n);	//	square(n) <- 3rd push(stack)
+	console.log(squared);
+}
+
+printSquare(4);	//	printSquare(4) <- 2nd push(stack)
+				//	main() <- 1st push(stack)
+
+
+
+//	ASYNC CALLBACKS & CALL STACK 	//
+console.log("Hi");	//	1st push() to stack, immediately pop()
+
+setTimeout(function () {	//	2nd push() to stack, goes to webapis and runs the timer in background, when timer is over, the control goes back to task queue
+	console.log("inside setTimeout...");
+}, 5000);
+
+console.log("last hard-coded log");	//	3rd push() to stack, immediately pop()
+
+//	now, the event-loop is in between the task-queue and stack, so it'll send the values from inside the task-queue to the stack whenever the stack gets emptied, strictly not before that
+</script>
+</body>
+</html>

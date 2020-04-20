@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script>
+	
+let log = console.log;
+let characters = ["A", "B", "C", "D"];	//	array
+
+
+function* genny(){	//	we use function* syntax instead of just function
+	// yield 'a';	//	yielding up a value from some object
+	// yield 'b';
+	// return "MiddleOfFunction";	//	values of all the yields after this will be undefined
+	// 							//	{value: "a", done: false}
+	// 							//  {value: "b", done: false}
+	// 							//  {value: "MiddleOfFunction", done: true}
+	// 							//  {value: undefined, done: true}
+	// 							//  {value: undefined, done: true}
+	// yield 'c';
+	// yield 'd';
+	// return "EndOfFunction";
+
+	// let i=1;
+	// yield i++;
+	// yield i++;
+	// yield i++;
+	// yield i++;
+
+	let i=0;
+	yield characters[i++];
+	yield characters[i++];
+	yield characters[i++];
+	yield characters[i++];	//	{value: "A", done: false}
+							//  {value: "B", done: false}
+							//  {value: "C", done: false}
+							//  {value: "D", done: false}
+							//  {value: undefined, done: true}
+}
+
+let iter = genny();	//	iter-generatorObject
+log(iter);	//	returns the type of var iter, i.e a generator, 
+			//	it is created due the function*
+log(iter.next());	//	iterators have one built-in method called next()
+log(iter.next());	//	if only, yield is there in the function, then by default, 
+					//	it'll return { value: undefined, done: true }
+log(iter.next());
+log(iter.next());
+log(iter.next());	//	{value: "a", done: false}
+					//  {value: "b", done: false}
+					//  {value: "c", done: false}
+					//  {value: "d", done: false}
+					//  {value: "EndOfFunction", done: true}
+log("****************************");
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+let starwars8 = {
+	title: 'The Last Jedi',
+	director: 'Rian Johnson',
+	year: 2017,
+	boxOffice: '1.3B'
+};
+
+// for(let p of starwars8)	//	Uncaught TypeError: starwars8 is not iterable
+// {						//	by default, Objects are not iterable
+// 							//	you've to build iterators to step through objects
+// }
+
+
+
+
+//	CUSTOM-ITERATORS
+let count = -1;
+let SW8 = {	//	object having any name
+    [Symbol.iterator]: function(obj){	//Symbol.iterator: a property, it's a unique value that'll never be duplicated
+    				//	this is the iterator function
+        return {	//	it(this func) returns one object
+            next: ()=>{
+                count++;
+                switch(count) {
+                    case 0:
+                        return {
+                            value: obj.title, 
+                            done: false}
+                    case 1:
+                        return {
+                            value: obj.year,
+                            done: false
+                        }
+                    case 2:
+                        return {
+                            value: obj.director,
+                            done: false
+                        }
+                    case 3 :
+                        return { value: undefined, done: true}
+                    default:
+                        return { value: undefined, done: true}
+                }
+            }
+        }
+    }
+}
+
+let data = SW8[Symbol.iterator](starwars8);	//	calls above func, which returns the return object which is the iterator
+log(data.next());	// calls next func inside the return obj
+log(data.next());
+log(data.next());
+log(data.next());
+log(data.next());	//	{value: "The Last Jedi", done: false}
+					//  {value: 2017, done: false}
+					//  {value: "Rian Johnson", done: false}
+					//  {value: undefined, done: true}
+					//  {value: undefined, done: true}	//	done: This is true if the last value in the sequence has already been consumed
+
+log("****************************");
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//	 IMPLEMENTATION USING ITERATORS
+const iterableObj = {
+  [Symbol.iterator]() {
+    let step = 0;
+    return {
+      next() {
+        step++;
+        if (step === 1) {
+          return { value: 'This', done: false};
+        } else if (step === 2) {
+          return { value: 'is', done: false};
+        } else if (step === 3) {
+          return { value: 'iterable.', done: false};
+        }
+        return { value: '', done: true };
+      }
+    }
+  },
+}
+for (const val of iterableObj) {
+  console.log(val);
+}
+// This
+// is 
+// iterable.
+
+
+log("****************************");
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//	IMPLEMENTATION USING GENERATORS
+function * iterableObjGenrtr() {
+  yield 'This';
+  yield 'is';
+  yield 'iterable.'
+}
+for (const val of iterableObjGenrtr()) {
+  console.log(val);
+}
+// This
+// is 
+// iterable.
+
+
+</script>
+</body>
+</html>

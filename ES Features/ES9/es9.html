@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ES9</title>
+</head>
+<body>
+<script>
+var log = console.log;
+
+log("//////////---Rest/Spread properties---///////////");
+
+// Rest elements for array destructuring assignment:
+var primes = [2, 3, 5, 7, 11];
+var [first, second, ...rest] = primes;
+console.log(first); // 2
+console.log(second); // 3
+console.log(rest); // [5, 7, 11]
+
+log("***************************************");
+
+// Spread elements for array literals:
+var primesCopy = [first, second, ...rest];
+console.log(primesCopy); // [2, 3, 5, 7, 11]
+
+log("***************************************");
+
+//	NOTE: Earlier it was for only for arrays, but, now these properties are also for Objects.
+var dude = {
+ name: 'Edmond',
+ age: 30,
+ role: 'Front End Developer',
+ }
+var {name, ...details} = dude;
+
+console.log(name);
+console.log(details);
+
+log("***************************************");
+
+var details = {
+ age: 30,
+ role: 'Front End Developer',
+ }
+
+var dude = {
+ name: 'Edmond',
+ ...details
+ }
+
+console.log(dude);
+
+log("***************************************");
+
+// Shallow-clone an object:
+var data = { x: 42, y: 27, label: 'Treasure' };
+// The old way:
+var clone1 = Object.assign({}, data);
+console.log(clone1);
+// The new way:
+var clone2 = { ...data };
+console.log(clone2);
+
+
+log("//////////---Promise.prototype.finally---///////////");
+//	it allows registering a callback to be invoked when a promise is settled i.e either fulfilled or rejected.
+// a no. of promise library have an implementation of the "finally" method "bluebird", "Q" and "when" are some examples.
+
+fetch('https://api.github.com/users/teamCodeBig')
+.then(response => response.json())
+.then(data => console.log(data.name))
+.catch(err => console.log(err))
+.finally(() => console.log('All fetched'))
+
+
+</script>
+</body>
+</html>
